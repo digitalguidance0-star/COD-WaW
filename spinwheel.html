@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COD LOADOUT WHEEL</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --olive: #8a8a2a;
+    --gold: #c8a84b;
+    --gold2: #e5c060;
+    --neon: #39ff14;
+    --neon2: #00e5ff;
+    --red: #ff3b3b;
+    --bg: #0a0a08;
+    --panel: #0f0f0c;
+    --card: #141410;
+    --border: rgba(200,168,75,0.2);
+    --text: #d4d4c0;
+    --muted: #6a6a50;
+    --camo1: #3a3a28;
+    --camo2: #2a2a1e;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Camo background pattern */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80px 60px at 10% 20%, rgba(50,50,30,0.4) 0%, transparent 100%),
+      radial-gradient(ellipse 120px 80px at 80% 60%, rgba(40,40,20,0.3) 0%, transparent 100%),
+      radial-gradient(ellipse 60px 100px at 50% 90%, rgba(45,45,25,0.35) 0%, transparent 100%),
+      radial-gradient(ellipse 90px 50px at 30% 70%, rgba(35,35,18,0.4) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 28px;
+    background: linear-gradient(90deg, #0a0a08 0%, #121210 50%, #0a0a08 100%);
+    border-bottom: 2px solid rgba(200,168,75,0.3);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon), transparent);
+    opacity: 0.4;
+  }
+
+  .logo {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 1.3rem;
+    color: var(--gold2);
+    letter-spacing: 6px;
+    text-shadow: 0 0 20px rgba(200,168,75,0.5);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-skull { font-size: 1.5rem; }
+  .logo-sub {
+    font-size: 0.5rem;
+    letter-spacing: 4px;
+    color: var(--muted);
+    display: block;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  .stats-bar {
+    display: flex;
+    gap: 24px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+  }
+  .stats-bar span { color: var(--neon); text-shadow: 0 0 8px rgba(57,255,20,0.5); }
+
+  .prestige-badge {
+    background: linear-gradient(135deg, var(--camo1), var(--camo2));
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    font-size: 0.65rem;
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--gold);
+    letter-spacing: 2px;
+    border-radius: 2px;
+  }
+
+  main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== SLOT SIDE ===== */
+  .slot-side {
+    flex: 0 0 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    background: radial-gradient(ellipse at 50% 40%, rgba(57,255,20,0.04) 0%, transparent 65%);
+  }
+
+  .machine-frame {
+    width: 320px;
+    background: linear-gradient(180deg, #141410 0%, #0e0e0a 100%);
+    border: 1px solid rgba(200,168,75,0.25);
+    border-radius: 4px;
+    box-shadow:
+      0 0 40px rgba(0,0,0,0.8),
+      0 0 0 1px rgba(200,168,75,0.08),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+    padding: 18px 18px 22px;
+    position: relative;
+  }
+
+  /* Corner brackets */
+  .machine-frame::before, .machine-frame::after {
+    content: '';
+    position: absolute;
+    width: 16px; height: 16px;
+    border-color: var(--gold);
+    border-style: solid;
+  }
+  .machine-frame::before {
+    top: 6px; left: 6px;
+    border-width: 1px 0 0 1px;
+  }
+  .machine-frame::after {
+    bottom: 6px; right: 6px;
+    border-width: 0 1px 1px 0;
+  }
+
+  .machine-top {
+    text-align: center;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(200,168,75,0.12);
+  }
+  .machine-top-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .jackpot-display {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--gold2);
+    text-shadow: 0 0 16px rgba(200,168,75,0.5);
+    letter-spacing: 3px;
+  }
+
+  .reel-window-wrap {
+    position: relative;
+    margin: 0 auto;
+  }
+
+  .reel-glow {
+    position: absolute;
+    inset: -3px;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .reel-glow.active {
+    opacity: 1;
+    animation: glowPulse 0.3s ease-in-out infinite alternate;
+  }
+  @keyframes glowPulse {
+    from { box-shadow: 0 0 10px var(--neon), 0 0 25px rgba(57,255,20,0.3); }
+    to   { box-shadow: 0 0 20px var(--neon2), 0 0 50px rgba(0,229,255,0.4); }
+  }
+
+  .reel-window {
+    width: 284px;
+    height: 336px;
+    overflow: hidden;
+    border-radius: 2px;
+    border: 1px solid rgba(200,168,75,0.2);
+    background: #06060500;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(200,168,75,0.03) 0px, transparent 1px, transparent 47px, rgba(200,168,75,0.03) 48px);
+    position: relative;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.9);
+  }
+
+  .reel-window::before,
+  .reel-window::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 90px;
+    z-index: 5;
+    pointer-events: none;
+  }
+  .reel-window::before {
+    top: 0;
+    background: linear-gradient(to bottom, #060605 0%, transparent 100%);
+  }
+  .reel-window::after {
+    bottom: 0;
+    background: linear-gradient(to top, #060605 0%, transparent 100%);
+  }
+
+  .center-line {
+    position: absolute;
+    top: 50%;
+    left: 0; right: 0;
+    height: 48px;
+    transform: translateY(-50%);
+    border-top: 1px solid rgba(57,255,20,0.25);
+    border-bottom: 1px solid rgba(57,255,20,0.25);
+    background: rgba(57,255,20,0.03);
+    z-index: 4;
+    pointer-events: none;
+  }
+  .center-line::before, .center-line::after {
+    content: '◄';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--neon);
+    font-size: 0.6rem;
+    opacity: 0.5;
+  }
+  .center-line::before { left: 4px; }
+  .center-line::after { right: 4px; content: '►'; }
+
+  .reel-strip {
+    position: absolute;
+    left: 0; right: 0;
+    top: 0;
+    will-change: transform;
+  }
+
+  .reel-item {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    font-size: 0.68rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    color: var(--text);
+    text-align: left;
+    letter-spacing: 0.5px;
+    position: relative;
+    gap: 8px;
+  }
+  .reel-item .cat-tag {
+    font-size: 0.5rem;
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 1px;
+    background: rgba(255,255,255,0.04);
+    padding: 1px 4px;
+    border-radius: 1px;
+    flex-shrink: 0;
+    min-width: 38px;
+    text-align: center;
+  }
+  .reel-item .symbol-label { line-height: 1.1; flex: 1; }
+  .reel-item.landing {
+    animation: landingFlash 0.5s ease-out forwards;
+  }
+  @keyframes landingFlash {
+    0%   { background: rgba(57,255,20,0.2); color: #fff; }
+    50%  { background: rgba(0,229,255,0.1); }
+    100% { background: transparent; }
+  }
+
+  #particleCanvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+    border-radius: 2px;
+  }
+
+  .controls {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn-spin {
+    width: 250px;
+    height: 50px;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    color: #0a0a08;
+    background: linear-gradient(135deg, #c8a84b 0%, #e5c060 40%, #c8a84b 100%);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(200,168,75,0.3), 0 4px 15px rgba(0,0,0,0.5);
+    transition: transform 0.1s, box-shadow 0.2s;
+  }
+  .btn-spin::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+  }
+  .btn-spin::after {
+    content: '';
+    position: absolute;
+    top: 1px; left: 1px; right: 1px;
+    height: 1px;
+    background: rgba(255,255,255,0.4);
+  }
+  .btn-spin:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(200,168,75,0.5), 0 6px 20px rgba(0,0,0,0.5); }
+  .btn-spin:active { transform: translateY(1px) scale(0.98); }
+  .btn-spin:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .btn-spin.spinning { animation: spinBtnPulse 0.4s ease-in-out infinite alternate; }
+  @keyframes spinBtnPulse {
+    from { box-shadow: 0 0 15px rgba(200,168,75,0.3); }
+    to   { box-shadow: 0 0 30px rgba(57,255,20,0.4); }
+  }
+
+  .btn-row { display: flex; gap: 8px; }
+  .btn-small {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+  }
+  .btn-small:hover { color: var(--neon); border-color: var(--neon); background: rgba(57,255,20,0.05); }
+  .btn-small.active { color: var(--red); border-color: var(--red); background: rgba(255,59,59,0.06); }
+
+  .spin-count {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+  }
+  .spin-count span { color: var(--neon); }
+
+  .divider {
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--border), var(--border), transparent);
+    flex-shrink: 0;
+  }
+
+  /* ===== NOTEBOOK SIDE ===== */
+  .notebook-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #0b0b09;
+  }
+
+  .notebook-header {
+    padding: 12px 22px 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .notebook-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    color: var(--muted);
+  }
+  .notebook-toolbar { display: flex; gap: 8px; align-items: center; }
+  .nb-search {
+    padding: 5px 12px;
+    font-size: 0.7rem;
+    font-family: 'Rajdhani', sans-serif;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--text);
+    width: 160px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .nb-search:focus { border-color: var(--neon); }
+  .btn-export {
+    padding: 5px 12px;
+    font-size: 0.65rem;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+    color: var(--gold);
+    background: rgba(200,168,75,0.06);
+    border: 1px solid rgba(200,168,75,0.2);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-export:hover { background: rgba(200,168,75,0.12); }
+
+  .nb-table-header {
+    display: grid;
+    grid-template-columns: 90px 1fr 1fr;
+    padding: 7px 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.58rem;
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .spin-list {
+    flex: 1;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+  .spin-list::-webkit-scrollbar { width: 3px; }
+  .spin-list::-webkit-scrollbar-track { background: transparent; }
+  .spin-list::-webkit-scrollbar-thumb { background: rgba(200,168,75,0.2); border-radius: 1px; }
+
+  .spin-entry {
+    display: grid;
+    grid-template-columns: 90px 1fr 1fr;
+    padding: 9px 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.025);
+    transition: background 0.2s;
+    animation: entrySlide 0.35s ease-out;
+  }
+  @keyframes entrySlide {
+    from { opacity: 0; transform: translateX(-16px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .spin-entry:hover { background: rgba(255,255,255,0.015); }
+  .spin-entry.rare { background: rgba(200,168,75,0.025); border-left: 2px solid rgba(200,168,75,0.4); }
+
+  .entry-time {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--muted);
+    padding-top: 2px;
+  }
+
+  .entry-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding-right: 14px;
+  }
+  .entry-cat {
+    font-size: 0.5rem;
+    font-family: 'Share Tech Mono', monospace;
+    padding: 2px 5px;
+    border-radius: 1px;
+    margin-top: 2px;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+  }
+  .cat-primary { background: rgba(255,59,59,0.15); border: 1px solid rgba(255,59,59,0.3); color: #ff6b6b; }
+  .cat-secondary { background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.25); color: var(--neon2); }
+  .cat-melee { background: rgba(200,168,75,0.15); border: 1px solid rgba(200,168,75,0.3); color: var(--gold2); }
+  .cat-lethal { background: rgba(255,100,0,0.12); border: 1px solid rgba(255,100,0,0.25); color: #ff8c42; }
+  .cat-tactical { background: rgba(100,200,255,0.1); border: 1px solid rgba(100,200,255,0.2); color: #64c8ff; }
+  .cat-perk { background: rgba(150,57,255,0.12); border: 1px solid rgba(150,57,255,0.25); color: #a855f7; }
+  .cat-field { background: rgba(57,255,20,0.08); border: 1px solid rgba(57,255,20,0.2); color: var(--neon); }
+  .cat-killstreak { background: rgba(255,59,59,0.2); border: 1px solid rgba(255,59,59,0.4); color: #ff3b3b; }
+
+  .entry-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .badge {
+    display: inline-block;
+    padding: 1px 5px;
+    font-size: 0.5rem;
+    font-family: 'Share Tech Mono', monospace;
+    border-radius: 1px;
+    margin-top: 3px;
+    letter-spacing: 1px;
+  }
+  .badge-rare {
+    background: rgba(200,168,75,0.15);
+    border: 1px solid rgba(200,168,75,0.4);
+    color: var(--gold2);
+    animation: holoBadge 2s linear infinite;
+  }
+  @keyframes holoBadge {
+    0%   { box-shadow: 0 0 4px rgba(200,168,75,0.3); }
+    50%  { box-shadow: 0 0 8px rgba(57,255,20,0.4); }
+    100% { box-shadow: 0 0 4px rgba(200,168,75,0.3); }
+  }
+  .badge-common {
+    background: rgba(100,100,80,0.15);
+    border: 1px solid rgba(100,100,80,0.3);
+    color: var(--muted);
+  }
+
+  .entry-tip {
+    font-size: 0.66rem;
+    color: rgba(180,180,160,0.7);
+    line-height: 1.45;
+    padding-left: 8px;
+    border-left: 2px solid rgba(57,255,20,0.12);
+  }
+  .entry-tip strong {
+    display: block;
+    color: var(--neon2);
+    font-size: 0.56rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .nb-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--muted);
+    font-size: 0.75rem;
+    gap: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+  }
+  .nb-empty .big { font-size: 2.5rem; opacity: 0.2; }
+
+  .rare-flash {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    animation: rareFade 0.9s ease-out forwards;
+    background: radial-gradient(ellipse at center, rgba(200,168,75,0.12) 0%, transparent 70%);
+  }
+  @keyframes rareFade { from { opacity: 1; } to { opacity: 0; } }
+
+  /* Result banner */
+  .result-banner {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-80px);
+    background: linear-gradient(135deg, var(--camo1), var(--camo2));
+    border: 1px solid var(--border);
+    padding: 6px 20px;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--gold2);
+    white-space: nowrap;
+    z-index: 30;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+    text-shadow: 0 0 10px rgba(200,168,75,0.5);
+  }
+  .result-banner.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span class="logo-skull">☠</span>
+    <div>
+      LOADOUT WHEEL
+      <span class="logo-sub">CALL OF DUTY · RANDOM LOADOUT GENERATOR</span>
+    </div>
+  </div>
+  <div class="stats-bar">
+    SPINS: <span id="totalSpins">0</span> &nbsp;·&nbsp;
+    SESSION: <span id="sessionSpins">0</span> &nbsp;·&nbsp;
+    RARE: <span id="rareHits">0</span>
+  </div>
+  <div class="prestige-badge">PRESTIGE MODE</div>
+</header>
+
+<main>
+  <div class="slot-side">
+    <div class="result-banner" id="resultBanner">AWAITING ORDERS</div>
+    <div class="machine-frame">
+      <div class="machine-top">
+        <div class="machine-top-label">ARMORY SELECTION</div>
+        <div class="jackpot-display" id="jackpotDisplay">SPIN TO DEPLOY</div>
+      </div>
+
+      <div class="reel-window-wrap">
+        <div class="reel-glow" id="reelGlow"></div>
+        <div class="reel-window" id="reelWindow">
+          <div class="center-line"></div>
+          <canvas id="particleCanvas" width="284" height="336"></canvas>
+          <div class="reel-strip" id="reelStrip"></div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="btn-spin" id="btnSpin">⬡ SPIN LOADOUT ⬡</button>
+        <div class="btn-row">
+          <button class="btn-small" id="btnAuto">⟳ AUTO</button>
+          <button class="btn-small" id="btnTurbo">⚡ TURBO</button>
+          <button class="btn-small" id="btnClear">✕ CLEAR</button>
+        </div>
+        <div class="spin-count">KILLS: <span id="spinCounter">0</span> &nbsp;|&nbsp; NUKES: <span id="rareCounter">0</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="notebook-side">
+    <div class="notebook-header">
+      <div class="notebook-title">◈ INTEL LOG</div>
+      <div class="notebook-toolbar">
+        <input class="nb-search" id="nbSearch" placeholder="🔍 search loadout..." type="text">
+        <button class="btn-export" id="btnExportCSV">⬇ CSV</button>
+        <button class="btn-export" id="btnExportJSON">⬇ JSON</button>
+      </div>
+    </div>
+    <div class="nb-table-header">
+      <div>TIME</div>
+      <div>ITEM</div>
+      <div>STRATEGY</div>
+    </div>
+    <div class="spin-list" id="spinList">
+      <div class="nb-empty" id="nbEmpty">
+        <div class="big">☠</div>
+        <div>AWAITING FIRST SPIN</div>
+        <div style="font-size:0.58rem;opacity:0.4;margin-top:4px;">ALL DATA SAVED LOCALLY</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// ===== COD LOADOUT ITEMS =====
+const features = [
+  // Primary weapons
+  {name:"M4A1 Assault Rifle",cat:"PRIMARY",rare:false},
+  {name:"AK-47",cat:"PRIMARY",rare:false},
+  {name:"M13",cat:"PRIMARY",rare:false},
+  {name:"Kilo 141",cat:"PRIMARY",rare:false},
+  {name:"GRAU 5.56",cat:"PRIMARY",rare:false},
+  {name:"CR-56 AMAX",cat:"PRIMARY",rare:false},
+  {name:"Bruen MK9 LMG",cat:"PRIMARY",rare:true},
+  {name:"FiNN LMG",cat:"PRIMARY",rare:false},
+  // Secondaries
+  {name:"Desert Eagle",cat:"SECONDARY",rare:false},
+  {name:"X16",cat:"SECONDARY",rare:false},
+  {name:".357 Magnum",cat:"SECONDARY",rare:false},
+  {name:"RPG-7",cat:"SECONDARY",rare:true},
+  {name:"JOKR Rocket",cat:"SECONDARY",rare:true},
+  {name:"Strela-P",cat:"SECONDARY",rare:false},
+  // SMG
+  {name:"MP5",cat:"PRIMARY",rare:false},
+  {name:"MP7",cat:"PRIMARY",rare:false},
+  {name:"PP19 Bizon",cat:"PRIMARY",rare:false},
+  {name:"P90",cat:"PRIMARY",rare:false},
+  {name:"Fennec",cat:"PRIMARY",rare:true},
+  // Sniper
+  {name:"HDR Sniper",cat:"PRIMARY",rare:true},
+  {name:"AX-50 Sniper",cat:"PRIMARY",rare:true},
+  {name:"Rytec AMR",cat:"PRIMARY",rare:true},
+  // Shotgun
+  {name:"R9-0 Shotgun",cat:"PRIMARY",rare:false},
+  {name:"Model 680",cat:"PRIMARY",rare:false},
+  {name:"Origin 12",cat:"PRIMARY",rare:false},
+  // Melee
+  {name:"Combat Knife",cat:"MELEE",rare:false},
+  {name:"Kali Sticks",cat:"MELEE",rare:false},
+  {name:"Riot Shield",cat:"MELEE",rare:true},
+  // Lethals
+  {name:"Frag Grenade",cat:"LETHAL",rare:false},
+  {name:"C4 Explosive",cat:"LETHAL",rare:false},
+  {name:"Claymore Mine",cat:"LETHAL",rare:false},
+  {name:"Thermite",cat:"LETHAL",rare:false},
+  {name:"Semtex",cat:"LETHAL",rare:false},
+  {name:"Molotov Cocktail",cat:"LETHAL",rare:false},
+  {name:"Throwing Knife",cat:"LETHAL",rare:true},
+  // Tacticals
+  {name:"Stun Grenade",cat:"TACTICAL",rare:false},
+  {name:"Flash Grenade",cat:"TACTICAL",rare:false},
+  {name:"Smoke Grenade",cat:"TACTICAL",rare:false},
+  {name:"Decoy Grenade",cat:"TACTICAL",rare:false},
+  {name:"Heartbeat Sensor",cat:"TACTICAL",rare:true},
+  {name:"Gas Grenade",cat:"TACTICAL",rare:false},
+  // Perks
+  {name:"Double Time Perk",cat:"PERK",rare:false},
+  {name:"Cold-Blooded Perk",cat:"PERK",rare:false},
+  {name:"Overkill Perk",cat:"PERK",rare:true},
+  {name:"Ghost Perk",cat:"PERK",rare:true},
+  {name:"Battle Hardened Perk",cat:"PERK",rare:false},
+  {name:"Tracker Perk",cat:"PERK",rare:false},
+  {name:"Restock Perk",cat:"PERK",rare:false},
+  {name:"Tune Up Perk",cat:"PERK",rare:false},
+  // Field Upgrades
+  {name:"Dead Silence",cat:"FIELD",rare:true},
+  {name:"Trophy System",cat:"FIELD",rare:false},
+  {name:"Stopping Power",cat:"FIELD",rare:true},
+  {name:"Munitions Box",cat:"FIELD",rare:false},
+  {name:"Deployable Cover",cat:"FIELD",rare:false},
+  // Killstreaks
+  {name:"UAV Killstreak",cat:"KILLSTREAK",rare:false},
+  {name:"Care Package",cat:"KILLSTREAK",rare:true},
+  {name:"VTOL Jet",cat:"KILLSTREAK",rare:true},
+  {name:"Chopper Gunner",cat:"KILLSTREAK",rare:true},
+  {name:"Nuke (25 Kill)",cat:"KILLSTREAK",rare:true},
+  {name:"Precision Airstrike",cat:"KILLSTREAK",rare:false},
+  {name:"Cluster Strike",cat:"KILLSTREAK",rare:false},
+  {name:"Wheelson",cat:"KILLSTREAK",rare:true},
+  {name:"Personal Radar",cat:"KILLSTREAK",rare:false},
+  {name:"Shield Turret",cat:"KILLSTREAK",rare:false},
+];
+
+const tips = {
+  "M4A1 Assault Rifle": "Equip Monolithic Suppressor + Singuard Arms 20\" barrel for max range. Add Commando Foregrip and 60-round mags. Use at medium range — this is the meta AR.",
+  "AK-47": "Run the 23.0\" Romanian barrel + Monolithic Suppressor for incredible damage range. Slap on a Merc Foregrip and go full aggressor — hipfire is surprisingly tight.",
+  "M13": "Low damage but insane fire rate. Max out bullet velocity with Tempus Marksman barrel. Great for suppressive fire — pair with Lightweight perk for sprinting plays.",
+  "Kilo 141": "Most versatile AR. Singuard Arms 19.8\" + Tac Laser + Commando Foregrip makes it laser-accurate. Favorite of pro players for its recoil pattern.",
+  "GRAU 5.56": "Minimal recoil beast. Tempus 26.4\" Archangel barrel is mandatory. Low time-to-kill at range — excellent for passive aggressive play.",
+  "CR-56 AMAX": "Highest damage AR. Heavy-hitting but needs recoil control — add Commando Foregrip + Ranger barrel. Absolutely punishes opponents at mid-range.",
+  "Bruen MK9 LMG": "Requires 3 player kills under smoke but worth it. Bipod + suppressor = wall-holding monster. Near zero recoil on bipod — punishes campers.",
+  "FiNN LMG": "Fastest firing LMG. Run the adverse barrel + choke to tighten spread. Pair with Overkill perk to take a sidearm for close encounters.",
+  "Desert Eagle": "One-shot kill to head at close range. Add .50 GS barrel for range boost. Great panic pistol — fast draw speed is underrated.",
+  "X16": "Best starter pistol. High fire rate makes it viable in gunfights. Add stippled tape for ADS speed — can get panic kills reliably.",
+  ".357 Magnum": "Snake Shot attachment = shotgun at close range. Huge fun in Warzone — catches enemies completely off guard when they think you're pulling a pistol.",
+  "RPG-7": "Destroy vehicles and window-campers. Double time helps you reload while moving. Always carry in Warzone — counters the Wheelson killstreak.",
+  "JOKR Rocket": "Fire-and-forget lock-on missile. Obliterates vehicles and air killstreaks. Slow projectile — lead your target slightly and pair with Trophy System.",
+  "Strela-P": "Fastest rocket in class. Must be aimed manually — requires skill. Excellent against helicopters and vehicles. Pair with Engineer perk to see enemy vehicles through walls.",
+  "MP5": "Fastest TTK in close range. Run Monolithic Integral suppressor + commando foregrip. The default meta SMG — virtually every loadout uses this as a secondary.",
+  "MP7": "High fire rate + great mobility. Equip FSS Recon barrel + foregrip. Slightly worse than MP5 at killing speed but better for maneuvering in buildings.",
+  "PP19 Bizon": "60-round magazine base! No mag attachment needed — use that slot for more gunfighting mods. Great for holding tight corridors.",
+  "P90": "50-round default mag with insane fire rate. Nearly uncontrollable recoil — compensate with Ranger Foregrip + Tac Laser. Melt enemies that push you.",
+  "Fennec": "Fastest fire rate in game. Ammunition runs out instantly — add extended mags immediately. Two-burst kill at CQC is almost guaranteed.",
+  "HDR Sniper": "Best bolt-action for range. 26.9\" HDR Pro barrel removes ALL bullet drop past 800m. Run Ghost + Cold-Blooded and become invisible to UAVs while sniping.",
+  "AX-50 Sniper": "Faster ADS than HDR. Mono Suppressor + Stock barrel for flick shots. Preferred for faster-paced play — reloads quicker between shots.",
+  "Rytec AMR": "Only 10-round mag but each shot is devastating. Explosive rounds attachment stuns enemies even on near-miss. Use for denying key areas.",
+  "R9-0 Shotgun": "Two fast shots then reload. Dragon's Breath rounds add fire damage — useful for flushing campers. Best in Shipment or Shoot House.",
+  "Model 680": "Highest single-shot damage shotgun. Choke attachment tightens pellet spread dramatically. One-shots at 5m — the door-breaching specialist.",
+  "Origin 12": "Full-auto shotgun. Low per-pellet damage but constant pressure. Pair with Melee knife as secondary for unstoppable room-clearing combos.",
+  "Combat Knife": "Run Double Time for insane sprint speed. One-hit kill from behind. Pair with Dead Silence for silent flanking. Ultimate challenge loadout.",
+  "Kali Sticks": "Fastest melee weapon — dual-wielded. Counter shields with them. Ultimate troll weapon on Shipment — you'll either dominate or go 2-20.",
+  "Riot Shield": "Blocks bullets from front. Pair with Spotter perk to see enemy equipment. Plant Claymores behind you as teammates push. Annoying and effective.",
+  "Frag Grenade": "Cook it for 2.5 seconds before throwing to deny campers. Bounce off walls around corners. Masterpiece in tight corridors — practice bank shots.",
+  "C4 Explosive": "Throw then detonate remotely — incredible for destroying vehicles or baiting push. In Warzone, one C4 can destroy a vehicle. Plant on vehicles in parking lots.",
+  "Claymore Mine": "Place in doorways behind cover. Activates when enemies cross the beam. Pair with Cold-Blooded perk so enemies cannot see your equipment on UAV.",
+  "Thermite": "Sticks to surfaces AND players. Burns through armor. Excellent for pushing into buildings — throw inside doorway before entry.",
+  "Semtex": "Faster than frag with better range. Sticks to surfaces and players — throw at enemy vehicles. Instant detonation on player hit makes it lethal.",
+  "Molotov Cocktail": "Creates fire zone — denies areas completely. Excellent for flushing campers in small buildings. Watch the fire spread direction from wind.",
+  "Throwing Knife": "One-hit kill on direct hit. Rechargeable with kills. Insane for finishing downed enemies in Warzone without wasting bullets.",
+  "Stun Grenade": "Slows and partially blinds. Stack two — first one, then push while enemy recovers. Hit indicators reveal where enemy is even through walls.",
+  "Flash Grenade": "Full screen blind for 2 seconds. Always follow up immediately. Pop smoke first then flash for maximum disorientation on entrenched enemies.",
+  "Smoke Grenade": "Zone control and intel denial. Use to reset unfavorable gunfights. In Warzone, smoke + heartbeat sensor = excellent intel combo.",
+  "Decoy Grenade": "Creates fake gunfire sounds + fake radar blip. Throw to distract snipers or pull enemies out of cover. Underrated in Warzone.",
+  "Heartbeat Sensor": "Shows nearby enemies not running Ghost. In Warzone, most players run Ghost — this reveals the non-meta players. Use before pushing buildings.",
+  "Gas Grenade": "Destroys anyone without Gas Mask. Lasts 8 seconds — excellent for holding choke points. Pair with Trophy System to block enemy grenades coming back.",
+  "Double Time Perk": "Doubles tactical sprint duration. Mandatory for aggressive play. Combine with Lightweight boots — cover map distance faster than any enemy.",
+  "Cold-Blooded Perk": "Invisible to AI targeting systems, thermal optics, and killstreak targeting. Also prevents High Alert from triggering on you. Essential in Warzone.",
+  "Overkill Perk": "Carry two primary weapons simultaneously. Build a long-range AR and close-range SMG combo. The definitive Warzone Perk 2 choice.",
+  "Ghost Perk": "Invisible to UAV, Radar Drones, and Heartbeat Sensors while moving. Mandatory for competitive Warzone play. Always take Ghost in third perk slot.",
+  "Battle Hardened Perk": "Reduces effect of flash, stun, EMP, and gas. Counters the Stun meta hard. Use this if enemies are throwing utility to push you constantly.",
+  "Tracker Perk": "See enemy footprints on the ground. Reveals enemy locations after kills. Excellent for hunting squads — follow their movement path to ambush.",
+  "Restock Perk": "Recharges equipment every 30 seconds. Pair with Claymores for constant passive defense. Incredible for holding buildings in Warzone endgame.",
+  "Tune Up Perk": "Reduces Field Upgrade charge time by 33%. Combos perfectly with Dead Silence and Stopping Power for constant ability use.",
+  "Dead Silence": "Silences your footsteps for 10 seconds on activation. Can be refreshed with kills — great players maintain it indefinitely. Game-changing for flanking.",
+  "Trophy System": "Destroys up to 3 pieces of incoming enemy equipment. Place before enemies can throw grenades — counter the Thermite and Frag meta perfectly.",
+  "Stopping Power": "Converts normal rounds into stopping power rounds for 10 shots. Activates when you need it most — massive burst damage for a limited window.",
+  "Munitions Box": "Drops ammo and equipment for your whole team. In Warzone, critical for teams without cash to buy loadouts. Share the wealth.",
+  "Deployable Cover": "Instant barrier in an open field. Pairs with Bipod-mounted LMGs for lockdown positions. Great for Warzone final circles in open terrain.",
+  "UAV Killstreak": "Reveals all enemies on minimap for 30 seconds. Call out instantly to team. Counter it with Cold-Blooded perk — prevents you from showing up.",
+  "Care Package": "Random high-tier killstreak airdropped. Can contain VTOL or Nuke — huge gamble. Throw smoke near it to confuse enemies trying to steal it.",
+  "VTOL Jet": "Fires rockets then hovers in area for gun run. Maximum effect: call it BEHIND enemy team. They'll be stuck between your team and the jet.",
+  "Chopper Gunner": "15 second aerial gun run. Prioritize vehicle targets and clustered enemies. Go prone to avoid incoming fire — you're exposed while calling it in.",
+  "Nuke (25 Kill)": "End the match immediately. Requires 25 kills WITHOUT dying. Play passive with Ghost + Cold-Blooded for final 10 kills. History-making achievement.",
+  "Precision Airstrike": "Two jets strafe a line. Mark perpendicular to enemy movement. Excellent for punishing enemies sitting in open areas or defending a head glitch.",
+  "Cluster Strike": "7 strikes over a small area. Throw marker and disengage — creates a no-go zone for 5 seconds. Incredible for blocking enemy reinforcement paths.",
+  "Wheelson": "Remote-controlled tank. Clear buildings before your team enters. Watch the angles — enemy RPG will destroy it instantly if they spot the direction.",
+  "Personal Radar": "Mini UAV following you for 60 seconds. Stacks with team UAV. Rush and track enemies visible on radar — constant information advantage.",
+  "Shield Turret": "Deployable mini-gun with 180° coverage. Place facing doorway openings. Cannot be shot through from the front — pure area denial.",
+};
+
+// ===== STATE =====
+let spinning = false;
+let autoMode = false;
+let turboMode = false;
+let autoTimer = null;
+let currentOffset = 0;
+let spinData = [];
+let sessionCount = 0;
+let rareCount = 0;
+
+const ITEM_H = 48;
+
+function loadStorage() {
+  try {
+    const raw = localStorage.getItem('codLoadoutHistory');
+    if (raw) spinData = JSON.parse(raw);
+  } catch(e) { spinData = []; }
+}
+function saveStorage() {
+  localStorage.setItem('codLoadoutHistory', JSON.stringify(spinData));
+}
+loadStorage();
+
+// Build strip
+const strip = document.getElementById('reelStrip');
+const stripItems = [];
+for (let f of features) stripItems.unshift(f); // prepend clone
+for (let r = 0; r < 4; r++) for (let f of features) stripItems.push(f);
+
+function buildStrip() {
+  strip.innerHTML = '';
+  for (let item of stripItems) {
+    const el = document.createElement('div');
+    el.className = 'reel-item';
+    const catClass = 'cat-' + item.cat.toLowerCase();
+    el.innerHTML = `<span class="cat-tag ${catClass}">${item.cat}</span><span class="symbol-label">${item.name}</span>`;
+    strip.appendChild(el);
+  }
+}
+buildStrip();
+
+const TOTAL_STRIP_H = stripItems.length * ITEM_H;
+currentOffset = features.length * ITEM_H;
+
+function applyOffset(offset) {
+  strip.style.transform = `translateY(${-offset}px)`;
+}
+applyOffset(currentOffset);
+
+// Particle system
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function spawnParticles(rare) {
+  const cx = canvas.width / 2;
+  const cy = canvas.height / 2;
+  const count = rare ? 55 : 25;
+  const colors = rare
+    ? ['#c8a84b','#e5c060','#39ff14','#00e5ff','#ff3b3b']
+    : ['#39ff14','#00e5ff','rgba(200,168,75,0.8)'];
+  for (let i = 0; i < count; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 1.5 + Math.random() * 4;
+    particles.push({
+      x: cx, y: cy,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      life: 1,
+      decay: 0.02 + Math.random() * 0.03,
+      size: 2 + Math.random() * 3.5,
+      color: colors[Math.floor(Math.random() * colors.length)],
+    });
+  }
+}
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles = particles.filter(p => p.life > 0);
+  for (const p of particles) {
+    ctx.save();
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle = p.color;
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+    p.x += p.vx; p.y += p.vy;
+    p.vy += 0.05; p.life -= p.decay;
+  }
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// Spin logic
+const reelGlow = document.getElementById('reelGlow');
+const btnSpin = document.getElementById('btnSpin');
+const spinCounter = document.getElementById('spinCounter');
+const rareCounter = document.getElementById('rareCounter');
+const resultBanner = document.getElementById('resultBanner');
+const totalSpans = {
+  total: document.getElementById('totalSpins'),
+  session: document.getElementById('sessionSpins'),
+  rare: document.getElementById('rareHits'),
+};
+
+function updateStats() {
+  const total = spinData.length;
+  const rare = spinData.filter(s => s.rare).length;
+  spinCounter.textContent = sessionCount;
+  rareCounter.textContent = rareCount;
+  totalSpans.total.textContent = total;
+  totalSpans.session.textContent = sessionCount;
+  totalSpans.rare.textContent = rare;
+}
+updateStats();
+
+function pickFeature() {
+  const pool = [];
+  for (const f of features) {
+    pool.push(f);
+    if (!f.rare) pool.push(f);
+  }
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function getTargetOffset(feature) {
+  const midStart = features.length;
+  let targetIndex = -1;
+  for (let i = midStart; i < stripItems.length; i++) {
+    if (stripItems[i].name === feature.name) { targetIndex = i; break; }
+  }
+  if (targetIndex < 0) targetIndex = midStart;
+  return targetIndex * ITEM_H - 168 + ITEM_H / 2;
+}
+
+function showBanner(text, rare) {
+  resultBanner.textContent = text;
+  resultBanner.style.color = rare ? 'var(--gold2)' : 'var(--neon2)';
+  resultBanner.classList.add('show');
+  setTimeout(() => resultBanner.classList.remove('show'), 2500);
+}
+
+function spin() {
+  if (spinning) return;
+  spinning = true;
+  btnSpin.disabled = true;
+  btnSpin.classList.add('spinning');
+  reelGlow.classList.add('active');
+
+  const feature = pickFeature();
+  const targetOffset = getTargetOffset(feature);
+  let startOffset = currentOffset;
+  let destination = targetOffset;
+  if (destination <= startOffset) destination += TOTAL_STRIP_H;
+  const totalDistance = destination - startOffset;
+  const duration = turboMode ? 550 : 1350;
+  let startTime = null;
+
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function animate(ts) {
+    if (!startTime) startTime = ts;
+    const elapsed = ts - startTime;
+    const t = Math.min(elapsed / duration, 1);
+    const offset = startOffset + totalDistance * easeOut(t);
+    const wrapped = offset % TOTAL_STRIP_H;
+    currentOffset = wrapped;
+    applyOffset(wrapped);
+
+    if (t < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      spinning = false;
+      btnSpin.disabled = false;
+      btnSpin.classList.remove('spinning');
+      reelGlow.classList.remove('active');
+
+      const centerIdx = Math.round((currentOffset + 168 - ITEM_H / 2) / ITEM_H);
+      const items = strip.querySelectorAll('.reel-item');
+      if (items[centerIdx]) {
+        items[centerIdx].classList.add('landing');
+        setTimeout(() => items[centerIdx].classList.remove('landing'), 600);
+      }
+
+      spawnParticles(feature.rare);
+      if (feature.rare) {
+        const flash = document.createElement('div');
+        flash.className = 'rare-flash';
+        document.body.appendChild(flash);
+        setTimeout(() => flash.remove(), 900);
+      }
+
+      showBanner(feature.rare ? `★ RARE — ${feature.name}` : feature.name, feature.rare);
+
+      sessionCount++;
+      if (feature.rare) rareCount++;
+      const entry = {
+        ts: Date.now(),
+        name: feature.name,
+        cat: feature.cat,
+        rare: feature.rare,
+        tip: tips[feature.name] || 'Run this item with your preferred perk setup and adapt to the match flow.',
+      };
+      spinData.unshift(entry);
+      saveStorage();
+      updateStats();
+      renderNotebook();
+
+      if (autoMode) autoTimer = setTimeout(spin, turboMode ? 250 : 750);
+    }
+  }
+  requestAnimationFrame(animate);
+}
+
+btnSpin.addEventListener('click', () => { if (!autoMode) spin(); });
+
+const btnAuto = document.getElementById('btnAuto');
+btnAuto.addEventListener('click', () => {
+  autoMode = !autoMode;
+  btnAuto.classList.toggle('active', autoMode);
+  if (autoMode) spin();
+  else clearTimeout(autoTimer);
+});
+
+const btnTurbo = document.getElementById('btnTurbo');
+btnTurbo.addEventListener('click', () => {
+  turboMode = !turboMode;
+  btnTurbo.classList.toggle('active', turboMode);
+});
+
+const btnClear = document.getElementById('btnClear');
+btnClear.addEventListener('click', () => {
+  if (confirm('Clear all spin history?')) {
+    spinData = [];
+    sessionCount = 0;
+    rareCount = 0;
+    saveStorage();
+    updateStats();
+    renderNotebook();
+  }
+});
+
+// Notebook
+const spinList = document.getElementById('spinList');
+const nbEmpty = document.getElementById('nbEmpty');
+const nbSearch = document.getElementById('nbSearch');
+
+function formatTime(ts) {
+  const d = new Date(ts);
+  return d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+}
+
+function catClass(cat) {
+  return 'cat-' + cat.toLowerCase();
+}
+
+function renderNotebook(filter = '') {
+  const filtered = spinData.filter(s => !filter || s.name.toLowerCase().includes(filter.toLowerCase()) || (s.cat && s.cat.toLowerCase().includes(filter.toLowerCase())));
+  if (filtered.length === 0) {
+    spinList.innerHTML = '';
+    spinList.appendChild(nbEmpty);
+    nbEmpty.style.display = 'flex';
+    return;
+  }
+  nbEmpty.style.display = 'none';
+  spinList.innerHTML = '';
+  for (const entry of filtered) {
+    const el = document.createElement('div');
+    el.className = `spin-entry${entry.rare ? ' rare' : ''}`;
+    el.innerHTML = `
+      <div class="entry-time">${formatTime(entry.ts)}</div>
+      <div class="entry-feature">
+        <span class="entry-cat ${catClass(entry.cat || 'PRIMARY')}">${entry.cat || 'ITEM'}</span>
+        <div>
+          <div class="entry-name">${entry.name}</div>
+          <div class="badge ${entry.rare ? 'badge-rare' : 'badge-common'}">${entry.rare ? '★ RARE DROP' : 'STANDARD'}</div>
+        </div>
+      </div>
+      <div class="entry-tip"><strong>Loadout Tip</strong>${entry.tip}</div>
+    `;
+    spinList.appendChild(el);
+  }
+}
+
+nbSearch.addEventListener('input', () => renderNotebook(nbSearch.value));
+renderNotebook();
+
+document.getElementById('btnExportCSV').addEventListener('click', () => {
+  const rows = [['Timestamp','Item','Category','Rare','Tip']];
+  for (const s of spinData) rows.push([new Date(s.ts).toISOString(), s.name, s.cat||'', s.rare?'Yes':'No', `"${s.tip}"`]);
+  download('cod-loadout.csv', rows.map(r => r.join(',')).join('\n'), 'text/csv');
+});
+
+document.getElementById('btnExportJSON').addEventListener('click', () => {
+  download('cod-loadout.json', JSON.stringify(spinData, null, 2), 'application/json');
+});
+
+function download(filename, content, mime) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], {type: mime}));
+  a.download = filename;
+  a.click();
+}
+</script>
+</body>
+</html>
